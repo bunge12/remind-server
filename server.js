@@ -3,7 +3,7 @@ const Express = require("express");
 const Cron = require("node-cron");
 const App = Express();
 const BodyParser = require("body-parser");
-const PORT = 8080;
+const PORT = 2233;
 const MessagingResponse = require("twilio").twiml.MessagingResponse;
 
 // Express Configuration
@@ -19,7 +19,6 @@ const {
   deleteHabit,
   addHabit,
 } = require("./db/queries");
-
 
 App.get("/api/test/:id", (req, res) => {
   res.send(req.params.id);
