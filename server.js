@@ -3,7 +3,10 @@ const Express = require("express");
 const Cron = require("node-cron");
 const App = Express();
 const BodyParser = require("body-parser");
-const PORT = 2233;
+const port = process.env.PORT;
+if (port == null || port == "") {
+  port = 8000;
+}
 const MessagingResponse = require("twilio").twiml.MessagingResponse;
 
 // Express Configuration
@@ -142,7 +145,7 @@ Cron.schedule("*/10 * * * *", () => {
 // Every week, generate new notifications for active habits
 // TBD
 
-App.listen(PORT, () => {
+App.listen(port, () => {
   // eslint-disable-next-line no-console
   console.log(
     `Express seems to be listening on port ${PORT} so that's pretty good 👍`
