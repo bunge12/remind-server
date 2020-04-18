@@ -21,6 +21,7 @@ const {
   recordActivity,
   deleteHabit,
   addHabit,
+  editHabit,
 } = require("./db/queries");
 
 App.get("/", (req, res) => {
@@ -115,6 +116,21 @@ App.post("/api/user/:id/habit/:habit/:freq", (req, res) => {
       res.sendStatus(200);
     } else {
       res.sendStatus(404);
+    }
+  });
+});
+
+// Edit habit, mark all notifications done, merge new notifications
+App.post("/api/habit/:id/edit/:frequency", (req, res) => {
+  const habitId = req.params.id;
+  const frequency = req.params.frequency;
+  editHabit(habitId, frequency, (err, items) => {
+    if (err) {
+      console.log("Error");
+      res.sendStatus(404);
+    }
+    if (items.length === 3) {
+      res.sendStatus(200);
     }
   });
 });

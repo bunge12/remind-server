@@ -111,7 +111,8 @@ const recordActivity = (id, cb) => {
     });
 };
 
-// Record Activity Information
+// Delete (deactivate) Habit
+// Mark reminders complete TBD
 const deleteHabit = (id, cb) => {
   db.query(`update habits set active=false where id=${id}`)
     .then((res) => {
@@ -143,6 +144,21 @@ async function addHabit(user_id, habit, freq, cb) {
     });
 }
 
+// Edit Habit/Mark Done Old Notifications/generate new notifications
+const editHabit = (habitId, frequency, cb) => {
+  let sql = `update habits set frequency = ${frequency} where id = ${habitId};
+  update notifications set completed = true where habit_id = ${habitId};`;
+  sql += setReminders(habitId, frequency, cb);
+  console.log("sql: ", sql);
+  db.query(`${sql}`)
+    .then((res) => {
+      cb(null, res);
+    })
+    .catch((err) => {
+      cb(err, null);
+    });
+};
+
 module.exports = {
   getUser,
   getHabits,
@@ -151,4 +167,5 @@ module.exports = {
   recordActivity,
   deleteHabit,
   addHabit,
+  editHabit,
 };
