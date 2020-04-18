@@ -41,7 +41,6 @@ const sendSms = () => {
     });
   });
   markComplete();
-  db.end();
 };
 
 // Mark them complete
