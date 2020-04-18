@@ -103,11 +103,11 @@ App.post("/api/habit/:id/delete", (req, res) => {
 });
 
 // Add habit
-App.post("/api/user/:id/habit/:habit/:freq", (req, res) => {
+App.post("/api/user/:id/habit/:activity/:freq", (req, res) => {
   const user_id = req.params.id;
-  const habit = req.params.habit;
+  const activity = req.params.activity;
   const freq = req.params.freq;
-  addHabit(user_id, habit, freq, (err, items) => {
+  addHabit(user_id, activity, freq, (err, items) => {
     if (err) {
       console.log("Error");
       res.sendStatus(404);
