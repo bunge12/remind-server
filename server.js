@@ -22,7 +22,7 @@ const {
   deleteHabit,
   addHabit,
   editHabit,
-  markComplete,
+  getActivity,
 } = require("./db/queries");
 
 App.get("/", (req, res) => {
@@ -66,6 +66,17 @@ App.get("/api/user/:id/dashboard", (req, res) => {
 App.get("/api/user/:id/calendar", (req, res) => {
   let id = req.params.id;
   getCalendar(id, (err, items) => {
+    if (err) {
+      console.log("Error");
+    }
+    res.send(items);
+  });
+});
+
+// Get activity information on name
+App.get("/api/activity/:query", (req, res) => {
+  let query = req.params.query;
+  getActivity(query, (err, items) => {
     if (err) {
       console.log("Error");
     }

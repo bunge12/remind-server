@@ -18,7 +18,7 @@ const getPending = (cb) => {
     join habits h on habit_id = h.id
     join users u on user_id = u.id
     join activities a on activity_id = a.id
-    where scheduled_time >= current_timestamp - interval '720 minutes' and scheduled_time < current_timestamp + interval '720 minutes' and completed = false`
+    where scheduled_time >= current_timestamp - interval '5 minutes' and scheduled_time < current_timestamp + interval '5 minutes' and completed = false`
   )
     .then((data) => {
       cb(data.rows);

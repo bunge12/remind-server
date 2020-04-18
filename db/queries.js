@@ -13,6 +13,17 @@ const getUser = (id, cb) => {
     .catch((err) => console.log(err));
 };
 
+// Get Activity Information
+const getActivity = (query, cb) => {
+  db.query(
+    `select * from activities WHERE lower(name) LIKE '%${query}%' LIMIT 1;`
+  )
+    .then((data) => {
+      cb(null, data.rows);
+    })
+    .catch((err) => console.log(err));
+};
+
 // Get Habits Information
 const getHabits = (id, cb) => {
   db.query(
@@ -181,4 +192,5 @@ module.exports = {
   addHabit,
   editHabit,
   markComplete,
+  getActivity,
 };
