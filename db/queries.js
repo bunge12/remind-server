@@ -163,7 +163,7 @@ const editHabit = (habitId, frequency, cb) => {
 const markComplete = () => {
   db.query(
     `update notifications set completed = true
-    where scheduled_time < current_timestamp - interval '720 minutes' completed = false`
+    where scheduled_time < current_timestamp - interval '720 minutes' and completed = false`
   )
     .then((data) => {
       data;
