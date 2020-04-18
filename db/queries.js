@@ -159,6 +159,18 @@ const editHabit = (habitId, frequency, cb) => {
     });
 };
 
+// Mark all past notifications as complete
+const markComplete = () => {
+  db.query(
+    `update notifications set completed = true
+    where scheduled_time < current_timestamp completed = false`
+  )
+    .then((data) => {
+      data;
+    })
+    .catch((err) => console.log(err));
+};
+
 module.exports = {
   getUser,
   getHabits,
@@ -168,4 +180,5 @@ module.exports = {
   deleteHabit,
   addHabit,
   editHabit,
+  markComplete,
 };

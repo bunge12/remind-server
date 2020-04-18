@@ -22,6 +22,7 @@ const {
   deleteHabit,
   addHabit,
   editHabit,
+  markComplete,
 } = require("./db/queries");
 
 App.get("/", (req, res) => {
@@ -151,11 +152,12 @@ App.post("/sms", (req, res) => {
   });
 });
 
-// Every 10 minutes, check for notigications, send SMS
+// Every 10 minutes, check for notifications, send SMS, mark notifications complete
 const { sendSms } = require("./scripts/sendSms");
 Cron.schedule("*/10 * * * *", () => {
-  console.log("running every 10 minutes!");
+  console.log(`SMS CRON ran at ${new Date()}`);
   sendSms();
+  markComplete();
 });
 
 // Every week, generate new notifications for active habits
