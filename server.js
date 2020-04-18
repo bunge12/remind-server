@@ -3,7 +3,7 @@ const Express = require("express");
 const Cron = require("node-cron");
 const App = Express();
 const BodyParser = require("body-parser");
-const port = process.env.PORT;
+let port = process.env.PORT;
 if (port == null || port == "") {
   port = 8000;
 }
@@ -23,8 +23,8 @@ const {
   addHabit,
 } = require("./db/queries");
 
-App.get("/api/test/:id", (req, res) => {
-  res.send(req.params.id);
+App.get("/", (req, res) => {
+  res.send("Welcome to API server!");
 });
 const { sendSms } = require("./send_reminder");
 
@@ -148,7 +148,7 @@ Cron.schedule("*/10 * * * *", () => {
 App.listen(port, () => {
   // eslint-disable-next-line no-console
   console.log(
-    `Express seems to be listening on port ${PORT} so that's pretty good 👍`
+    `Express seems to be listening on port ${port} so that's pretty good 👍`
   );
 });
 
