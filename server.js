@@ -157,7 +157,6 @@ const { sendSms } = require("./scripts/sendSms");
 Cron.schedule("*/10 * * * *", () => {
   console.log(`SMS CRON ran at ${new Date()}`);
   sendSms();
-  markComplete();
 });
 
 // Every week, generate new notifications for active habits

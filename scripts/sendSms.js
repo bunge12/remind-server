@@ -2,6 +2,7 @@
 require("dotenv").config();
 const { Pool } = require("pg");
 const dbParams = require("../db/db.js");
+const { markComplete } = require("../db/queries");
 const db = new Pool(dbParams);
 db.connect();
 
@@ -39,6 +40,7 @@ const sendSms = () => {
         .then((message) => console.log(message.sid));
     });
   });
+  markComplete();
   db.end();
 };
 
