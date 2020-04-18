@@ -27,7 +27,6 @@ const {
 App.get("/", (req, res) => {
   res.send("Welcome to API server!");
 });
-const { sendSms } = require("./send_reminder");
 
 // Get user by ID
 App.get("/api/user/:id", (req, res) => {
@@ -121,7 +120,7 @@ App.post("/api/user/:id/habit/:habit/:freq", (req, res) => {
 });
 
 // Edit habit, mark all notifications done, merge new notifications
-App.post("/api/habit/:id/edit/:frequency", (req, res) => {
+App.post("/api/habit/:id/edit/:activity/:frequency", (req, res) => {
   const habitId = req.params.id;
   const frequency = req.params.frequency;
   editHabit(habitId, frequency, (err, items) => {
@@ -153,9 +152,10 @@ App.post("/sms", (req, res) => {
 });
 
 // Every 10 minutes, check for notigications, send SMS
+const { sendSms } = require("./scripts/sendSms");
 Cron.schedule("*/10 * * * *", () => {
   console.log("running every 10 minutes!");
-  // sendSms();
+  sendSms();
 });
 
 // Every week, generate new notifications for active habits
@@ -167,5 +167,3 @@ App.listen(port, () => {
     `Express seems to be listening on port ${port} so that's pretty good 👍`
   );
 });
-
-// comment

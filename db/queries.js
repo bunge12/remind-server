@@ -126,7 +126,7 @@ const deleteHabit = (id, cb) => {
 };
 
 // Add habit, set reminders
-const { setReminders } = require("../set_reminders");
+const { setReminders } = require("../scripts/setReminders");
 async function addHabit(user_id, habit, freq, cb) {
   const query = `INSERT INTO habits (user_id, activity_id, frequency)
   VALUES (${user_id}, ${habit}, ${freq}) RETURNING id;`;
