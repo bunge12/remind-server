@@ -13,6 +13,16 @@ const getUser = (id, cb) => {
     .catch((err) => console.log(err));
 };
 
+// Get User by Phone Information
+const getByPhone = (phone, cb) => {
+  db.query(`SELECT * from users where phone ='${phone}' LIMIT 1;`)
+    .then((data) => {
+      console.log("User info:", data.rows);
+      cb(null, data.rows);
+    })
+    .catch((err) => console.log(err));
+};
+
 // Get Activity Information
 const getActivity = (query, cb) => {
   db.query(
@@ -193,4 +203,5 @@ module.exports = {
   editHabit,
   markComplete,
   getActivity,
+  getByPhone,
 };

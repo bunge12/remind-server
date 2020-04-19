@@ -23,6 +23,7 @@ const {
   addHabit,
   editHabit,
   getActivity,
+  getByPhone,
 } = require("./db/queries");
 
 App.get("/", (req, res) => {
@@ -33,6 +34,17 @@ App.get("/", (req, res) => {
 App.get("/api/user/:id", (req, res) => {
   let id = req.params.id;
   getUser(id, (err, items) => {
+    if (err) {
+      console.log("Error");
+    }
+    res.send(items);
+  });
+});
+
+// Get user by ID
+App.get("/api/phone/:number", (req, res) => {
+  let number = req.params.number;
+  getByPhone(number, (err, items) => {
     if (err) {
       console.log("Error");
     }

@@ -1,3 +1,4 @@
+const axios = require("axios");
 const request1 = "track yoga";
 const request2 = "record running";
 const request3 = "please record run";
@@ -11,19 +12,26 @@ const name = (string) => {
 
 const bot = (request) => {
   if (request.length) {
-    console.log("text request", name(request));
-    // find who the customer is
     // find the activity
+    console.log("text request", name(request));
+    axios
+      .get(
+        `https://remindapp-server.herokuapp.com/api/activity/${name(request)}`
+      )
+      .then((data) => console.log("Yoga id: ", data.data[0].id))
+      .catch((e) => e);
+    // find who the customer is
+
     // find habit and record habit
     // congratulate customer
   } else {
-    console.log("reply", request);
+    // console.log("reply", request);
     // implement recordActivity
   }
 };
 
 bot(request1);
-bot(request2);
-bot(request3);
-bot(request4);
-bot(request5);
+// bot(request2);
+// bot(request3);
+// bot(request4);
+// bot(request5);
