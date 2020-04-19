@@ -164,7 +164,7 @@ App.post("/sms", (req, res) => {
   const user = req.body.From;
   const request = req.body.Body;
   const twiml = new MessagingResponse();
-  const result = bot(user, request);
+  const result = await bot(user, request);
   console.log(`Bot's result: ${result}`);
 
   // recordActivity(id, (err, items) => {
