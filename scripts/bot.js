@@ -1,37 +1,49 @@
 const axios = require("axios");
-const request1 = "track yoga";
-const request2 = "record running";
-const request3 = "please record run";
-const request4 = "pray";
-const request5 = 10;
 
 const name = (string) => {
   const n = string.split(" ");
   return n[n.length - 1];
 };
 
-const bot = (request) => {
+const bot = async (user, request) => {
+  // If request has length, it's a string, handle logic
   if (request.length) {
-    // find the activity
-    console.log("text request", name(request));
-    axios
+    // Recognize activity
+    const activityId = await axios
       .get(
         `https://remindapp-server.herokuapp.com/api/activity/${name(request)}`
       )
-      .then((data) => console.log("Yoga id: ", data.data[0].id))
+      .then((data) => {
+        return data.data[0].id;
+      })
       .catch((e) => e);
-    // find who the customer is
-
-    // find habit and record habit
-    // congratulate customer
+    // Find who the user is
+    const userId = await axios
+      .get(`https://remindapp-server.herokuapp.com/api/phone/${user}`)
+      .then((data) => {
+        return data.data[0].id;
+      })
+      .catch((e) => e);
+    // Check if they have a habit
+    const habitId = await axios
+      .get(`https://remindapp-server.herokuapp.com/api/user/${userId}/habits`)
+      .then((data) => {
+        let result = data.data;
+        let habit = null;
+        result.forEach((element) => {
+          if (element.activity_id === activityId) {
+            habit = element.id;
+          }
+        });
+        return habit;
+      })
+      .catch((e) => e);
+    if (habitId !== null) {
+      console.log("habit recorded");
+    } else {
+      console.log("habit not recognized");
+    }
   } else {
-    // console.log("reply", request);
-    // implement recordActivity
+    console.log("habit_id received");
   }
 };
-
-bot(request1);
-// bot(request2);
-// bot(request3);
-// bot(request4);
-// bot(request5);
