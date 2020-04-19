@@ -7,7 +7,7 @@ const name = (string) => {
 
 const bot = async (user, request) => {
   // If request has length, it's a string, handle logic
-  if (request.length) {
+  if (!parseInt(request)) {
     // Recognize activity
     const activityId = await axios
       .get(
@@ -40,13 +40,16 @@ const bot = async (user, request) => {
       .catch((e) => e);
     if (habitId !== null) {
       console.log("habit recorded");
+      return habitId;
     } else {
       console.log("habit not recognized");
+      return null;
     }
   } else {
-    console.log("habit_id received");
+    const id = parseInt(request);
+    console.log(`habit_id received: ${id}`);
+    return id;
   }
 };
 
-bot("+16475233081", 12);
 module.exports = { bot };
