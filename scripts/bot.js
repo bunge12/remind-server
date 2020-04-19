@@ -1,4 +1,7 @@
 const axios = require("axios");
+const MessagingResponse = require("twilio").twiml.MessagingResponse;
+const twiml = new MessagingResponse();
+const { recordActivity } = require("../db/queries");
 
 const name = (string) => {
   const n = string.split(" ");
@@ -40,10 +43,32 @@ const bot = async (user, request) => {
       .catch((e) => e);
     if (habitId !== null) {
       console.log("habit recorded");
+      recordActivity(habitId, (err, items) => {
+        if (err) {
+          console.log("Error");
+          res.sendStatus(404);
+        } else {
+          twiml.message("Thanks! Keep up the good work!");
+          res.writeHead(200, { "Content-Type": "text/xml" });
+          res.end(twiml.toString());
+        }
+      });
     } else {
       console.log("habit not recognized");
     }
   } else {
     console.log("habit_id received");
+    recordActivity(habitId, (err, items) => {
+      if (err) {
+        console.log("Error");
+        res.sendStatus(404);
+      } else {
+        twiml.message("Thanks! Keep up the good work!");
+        res.writeHead(200, { "Content-Type": "text/xml" });
+        res.end(twiml.toString());
+      }
+    });
   }
 };
+
+module.exports = { bot };

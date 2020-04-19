@@ -43,6 +43,4 @@ const sendSms = () => {
   markComplete();
 };
 
-// Mark them complete
-// TBD
 module.exports = { sendSms };

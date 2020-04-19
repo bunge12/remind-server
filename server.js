@@ -7,7 +7,6 @@ let port = process.env.PORT;
 if (port == null || port == "") {
   port = 8000;
 }
-const MessagingResponse = require("twilio").twiml.MessagingResponse;
 
 // Express Configuration
 App.use(BodyParser.urlencoded({ extended: false }));
@@ -159,20 +158,11 @@ App.post("/api/habit/:id/edit/:activity/:frequency", (req, res) => {
 });
 
 // Listen to incoming SMS, record activity
+const { bot } = require("./scripts/bot");
 App.post("/sms", (req, res) => {
-  const id = parseInt(req.body.Body);
-  const twiml = new MessagingResponse();
-
-  recordActivity(id, (err, items) => {
-    if (err) {
-      console.log("Error");
-      res.sendStatus(404);
-    } else {
-      twiml.message("Thanks! Keep up the good work!");
-      res.writeHead(200, { "Content-Type": "text/xml" });
-      res.end(twiml.toString());
-    }
-  });
+  const request = req.body.Body;
+  const user = req.body.From;
+  bot(user, request);
 });
 
 // Every 10 minutes, check for notifications, send SMS, mark notifications complete
