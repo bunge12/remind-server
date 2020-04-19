@@ -73,7 +73,7 @@ const getDashboard = (id, cb) => {
     `select habits.id as habit_id, count(habit_id) as current, frequency, name from habits 
     left join (select * from habits_journal where habits_journal.created_at > date_trunc('week', current_date)) as foo on habit_id = habits.id
     join activities on  activity_id = activities.id
-    where  user_id = ${id} 
+    where  user_id = ${id} and habits.active = true
     group by habits.id, frequency, activities.name;
     `
   )
