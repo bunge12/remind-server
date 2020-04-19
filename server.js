@@ -161,15 +161,24 @@ App.post("/api/habit/:id/edit/:activity/:frequency", (req, res) => {
 // Listen to incoming SMS, record activity
 const { bot } = require("./scripts/bot");
 App.post("/sms", (req, res) => {
-  const id = parseInt(req.body.Body);
+  const query = req.body.Body;
+  const user = req.body.From;
   const twiml = new MessagingResponse();
 
-  recordActivity(id, (err, items) => {
-    if (err) {
-      console.log("Error");
-      res.sendStatus(404);
+  bot(user, query).then((id) => {
+    if (id !== null) {
+      recordActivity(id, (err, items) => {
+        if (err) {
+          console.log("Error");
+          res.sendStatus(404);
+        } else {
+          twiml.message("Thanks! Keep up the good work!");
+          res.writeHead(200, { "Content-Type": "text/xml" });
+          res.end(twiml.toString());
+        }
+      });
     } else {
-      twiml.message("Thanks! Keep up the good work!");
+      twiml.message("Request not recognized");
       res.writeHead(200, { "Content-Type": "text/xml" });
       res.end(twiml.toString());
     }

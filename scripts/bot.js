@@ -52,4 +52,5 @@ const bot = async (user, request) => {
   }
 };
 
+// bot("+16475233081", "kkkk").then((r) => console.log(r));
 module.exports = { bot };
