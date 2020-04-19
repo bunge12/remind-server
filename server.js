@@ -161,22 +161,19 @@ App.post("/api/habit/:id/edit/:activity/:frequency", (req, res) => {
 // Listen to incoming SMS, record activity
 const { bot } = require("./scripts/bot");
 App.post("/sms", (req, res) => {
-  const user = req.body.From;
-  const request = req.body.Body;
+  const id = parseInt(req.body.Body);
   const twiml = new MessagingResponse();
-  const result = await bot(user, request);
-  console.log(`Bot's result: ${result}`);
 
-  // recordActivity(id, (err, items) => {
-  //   if (err) {
-  //     console.log("Error");
-  //     res.sendStatus(404);
-  //   } else {
-  //     twiml.message("Thanks! Keep up the good work!");
-  //     res.writeHead(200, { "Content-Type": "text/xml" });
-  //     res.end(twiml.toString());
-  //   }
-  // });
+  recordActivity(id, (err, items) => {
+    if (err) {
+      console.log("Error");
+      res.sendStatus(404);
+    } else {
+      twiml.message("Thanks! Keep up the good work!");
+      res.writeHead(200, { "Content-Type": "text/xml" });
+      res.end(twiml.toString());
+    }
+  });
 });
 
 // Every 10 minutes, check for notifications, send SMS, mark notifications complete
