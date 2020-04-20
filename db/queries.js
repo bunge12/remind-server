@@ -96,7 +96,7 @@ const calendar = (data) => {
     data.forEach((record) => {
       let r = record.day.toISOString().slice(0, 10);
       if (element.day === r) {
-        element.plan.push(record.name);
+        element.plan.push(record.image);
       }
     });
   });
