@@ -168,7 +168,7 @@ async function addHabit(user_id, habit, freq, cb) {
 // Edit Habit/Mark Done Old Notifications/generate new notifications
 const editHabit = (habitId, frequency, cb) => {
   let sql = `update habits set frequency = ${frequency} where id = ${habitId};
-  update notifications set completed = true where habit_id = ${habitId};`;
+  delete from notifications where habit_id = ${habitId};`;
   sql += setReminders(habitId, frequency, cb);
   console.log("sql: ", sql);
   db.query(`${sql}`)
