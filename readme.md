@@ -34,6 +34,10 @@ re:mind is a full-stack web wellness tracker app that helps people to develop an
 - Storybook
 - PostgreSQL hosted on ElephantSQL
 
+## Screenshots
+
+!["App functionality demo"](https://github.com/bunge12/remind-server/blob/master/docs/demo.gif)
+
 ## Dependencies
 
 - Axios
